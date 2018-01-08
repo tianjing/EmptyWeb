@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PluginInfo>
+<name>mailplugin</name>
+<classname>dqit.mail.Plugin</classname>
+<isload>true</isload>
+</PluginInfo>

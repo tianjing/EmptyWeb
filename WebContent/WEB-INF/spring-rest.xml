@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	<!-- 开启MVC注释功能 -->
+	<mvc:annotation-driven >
+		<mvc:message-converters>
+			<bean  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+			<bean  class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"/>
+			<bean  class="tgtools.web.util.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg index="0" value="text" />
+							<constructor-arg index="1" value="plain" />
+							<constructor-arg index="2" value="UTF-8" />
+						</bean>
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg index="0" value="application" />
+							<constructor-arg index="1" value="json" />
+							<constructor-arg index="2" value="UTF-8" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+
+	<!-- 自动注册bean -->
+	<context:component-scan base-package="tgtools.web.rests" >
+		<context:include-filter type="regex"
+			expression=".data.*" />
+	</context:component-scan>
+
+
+	<!--启用websocket -->
+	<context:component-scan base-package="tgtools.web.websocket" />
+
+
+</beans>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Html5网页 音频文字聊天室</title>
+    <meta charset="utf-8" />
+    <script src="../../../../js/jquery-1.11.3.js"></script>
+    <script src="js/recordmp3.js"></script>
+    <script src="../js/audioplayers.js"></script>
+    <script src="../../../../js/jquery.cookie.js"></script>
+
+</head>
+<body>
+<h1>Html5网页JavaScript录制MP3音频 使用时确保支持websocket 且 AudioFileWebSocketPlugin 配置文件 isload=true</h1>
+用户名： <input id="username" type="text" value=""><br/>
+房间：<input name="room" type="radio" value="room1" />room1 <input name="room" type="radio" value="room2"  />room2 <input name="room" type="radio" value="room3" />room3 <br/>
+<button onclick="setting(this);" id="btnSet" >设置</button> <br/><br/>
+
+<textarea id="textContent" style="width: 100%;height: 200px;"></textarea><br/>
+
+<input id="text" type="text" value=""><button id="btnSendText" onclick="sendText();" disabled="true">发送</button>  <br/><br/>
+
+<button onclick="funStart(this);" id="btnStart" disabled>开始语音</button>
+<button onclick="funStop(this);" id="btnStop" disabled>停止语音</button>
+<h4>调试信息：</h4>
+<div id="recordingslist"></div>
+<script>
+    function getURL () {
+
+        var curWwwPath = window.document.location.href;
+        //获取主机地址之后的目录，如： cis/website/meun.htm
+        var pathName = window.document.location.pathname;
+        var pos = curWwwPath.indexOf(pathName); //获取主机地址，如： http://localhost:8080
+        var localhostPaht = curWwwPath.substring(0, pos); //获取带"/"的项目名，如：/cis
+        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+        var rootPath = localhostPaht + projectName;
+        return rootPath;
+    };
+    $.cookie("chatuser","tianjing");
+    var url=getURL();
+    var isSSL=false;
+    isSSL=url.indexOf('https')>=0;
+    url=url.replace("http://","");
+    url=url.replace("https://","");
+    var wsstart="ws";
+    if(isSSL)
+    {
+        wsstart="wss";
+    }
+    var wsUrl = wsstart+"://"+url+"/myrest/myaudiowebsocket";
+    var wsTextUrl = wsstart+"://"+url+"/myrest/myaudiowebsockettext";
+    var audio = document.querySelector('audio');
+    var palyers =new AudioPlayers();
+    var ws = null;
+    var wstext=null;
+    function setting(button){
+        if(""==username.value){alert("请输入用户名");return;}
+        var roomname=$('input:radio:checked').val();
+        if(undefined==roomname||""==roomname||null==roomname){alert("请选择房间");return;}
+        wsUrl=wsUrl+"?username="+username.value+"&room="+roomname;
+        wsTextUrl=wsTextUrl+"?username="+username.value+"&room="+roomname;
+        btnSendText.disabled=false;
+
+        webSocketAudio();
+        webSocketText();
+    };
+    function sendText(){
+        wstext.send(username.value+" 说: "+$("#text").val());
+    };
+    function webSocketAudio()
+    {
+        ws = new WebSocket(wsUrl);
+        ws.onopen = function() {
+            console.log('ws握手成功');
+            ws.binaryType = 'arraybuffer';
+            //ws.send('user:' + a.value);
+        };
+        ws.onerror=function(e)
+        {
+            console.log('ws出错'+e);
+        }
+        ws.onmessage = function(e) {
+            receive(e.data);
+        };
+        ws.onclose=function(a,b){
+            console.log('wsonclose');
+        };
+    }
+    function webSocketText()
+    {
+        wstext = new WebSocket(wsTextUrl);
+        wstext.onopen = function() {
+            console.log('wstext握手成功');
+        };
+        wstext.onerror=function(e)
+        {
+            console.log('wstext出错'+e);
+        }
+        wstext.onmessage = function(e) {
+            receiveText(e.data);
+        };
+        wstext.onclose=function(a,b){
+            console.log('wstextonclose');
+        };
+    }
+    function receiveText(data) {
+        textContent.innerHTML += data + '\r\n';
+    }
+    function receive(data) {
+        var mp3= new Blob([data], { type: 'audio/mp3' });
+        palyers.playData(mp3);
+    }
+
+    var recorder = new MP3Recorder({
+        debug:true,
+        bitRate:64,
+        funOk: function () {
+            btnStart.disabled = false;
+            log('初始化成功');
+        },
+        funCancel: function (msg) {
+            log(msg);
+            recorder = null;
+        }
+    });
+    $(function(){
+            setInterval(function(){
+                if(!btnStart.disabled)
+                {return;}
+                recorder.getMp3Blob(function (blob) {
+                    log('正在传输音频');
+                    ws.send(blob);
+                });
+            },5000);
+    });
+    function funStart(button) {
+        btnStart.disabled = true;
+        btnStop.disabled = false;
+        log('语音开始...');
+        recorder.start();
+    }
+    function funStop(button) {
+        recorder.stop();
+        btnStart.disabled = false;
+        btnStop.disabled = true;
+        log('语音结束');
+    }
+
+    function log(str) {
+        recordingslist.innerHTML = str + '<br/>'+recordingslist.innerHTML;
+    }
+
+</script>
+</body>
+</html>

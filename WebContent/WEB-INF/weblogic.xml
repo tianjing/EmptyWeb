@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <context-root>/EmptyProject</context-root>
+  <container-descriptor>
+<prefer-web-inf-classes>true</prefer-web-inf-classes>
+  </container-descriptor>
+</weblogic-web-app>
+<!--已经在 11g版测试通过 weblogic 部署注意 删除 项目中 xml-apis.jar  -->
+

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../../js/jquery-1.11.3.js"></script>
+    <script type="text/javascript" src="../../js/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="../../js/json2.js"></script>
+    <script type="text/javascript" src="../../js/dqit.js"></script>
+</head>
+<body>
+<div>echarts图形</div>
+<div id="view" style="width:100%;height: 500px;"></div>
+</body>
+<script type="text/javascript" language="JavaScript">
+
+    var data;
+    var myChart = echarts.init(document.getElementById("view"));
+    var points = [];
+    //点的大小
+    var symbolSize = 20;
+    myChart.showLoading();
+    var zr;
+
+    dqit.net.rest.jsonpost("data/index.jsp",{},function(data1){
+        myChart.hideLoading();
+        data=data1;
+        createEchart();
+        //var data = [["00:15", 0,"V0015"], ["00:30", 10,"V0015"], ["00:45", 20,"V0015"], ["01:00", 30,"V0015"], ["01:15", 40,"V0015"]];
+        createZR();
+
+    },function(err){alert(err);});
+
+    function createZR()
+    {
+        zr = myChart.getZr();
+
+        var app={};
+       // if (!app.inNode) {
+            // 在浏览器端执行下面的操作
+            setTimeout(function () {
+                // Add shadow circles (which is not visible) to enable drag.
+                echarts.util.each(data, function (item, dataIndex) {
+                    var position = myChart.convertToPixel('grid', item);
+                    var circleEl = new echarts.graphic.Circle({
+                        shape: {
+                            cx: 0,
+                            cy: 0,
+                            r: symbolSize / 2
+                        },
+                        invisible: true,
+                        position: position,
+                        draggable: true,
+                        drift: echarts.util.curry(onPointDragging, dataIndex),
+                        onmousemove: echarts.util.curry(showTooltip, dataIndex),
+                        onmouseout: echarts.util.curry(hideTooltip, dataIndex),
+                        z: 100
+                    });
+
+                    points.push(circleEl);
+                    zr.add(circleEl);
+                });
+            }, 0);
+
+            myChart.on('dataZoom', updatePosition);
+            //window.addEventListener('resize', updatePosition);
+       // }
+
+
+
+    };
+    function createEchart(){
+        option = {
+            title: {
+                text: '可以拖动的点图'
+            },
+            tooltip: {
+                triggerOn: 'none',
+                formatter: function (params) {
+                    return 'X: ' + params.data[0] + '<br>Y: ' + params.data[1].toFixed(2);
+                }
+            },
+            toolbox:{
+                feature: {
+                    mysave: {
+                        show: true,
+                        title: '自定义保存',
+                        icon:"image://../../../icons/user.gif",
+                        onclick: function (){
+                            alert('myToolHandler1')
+                        }
+                    }}},
+            grid: {
+            },
+            xAxis: {
+//            min: -100,
+//            max: 80,
+//            type: 'value',
+//            axisLine: {onZero: false}
+                type : 'category',
+                boundaryGap : false,
+                axisLine: {onZero: false},
+                data : ["00:15","00:30","00:45","01:00","01:15"]
+            },
+            yAxis: {
+                min: -30,
+                max: 60,
+                type: 'value',
+                axisLine: {onZero: false}
+            },
+            dataZoom: [
+
+            ],
+            series: [
+                {
+                    id: 'a',
+                    type: 'line',
+                    smooth: true,
+                    symbolSize: symbolSize,
+                    "data": data
+                }
+            ]
+        };
+        myChart.setOption(option);
+
+    };
+    function updatePosition() {
+        echarts.util.each(data, function (item, dataIndex) {
+            var position = myChart.convertToPixel('grid', item);
+            points[dataIndex].attr('position', position);
+        });
+    }
+
+    function showTooltip(dataIndex) {
+        myChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: 0,
+            dataIndex: dataIndex
+        });
+    }
+
+    function hideTooltip(dataIndex) {
+        myChart.dispatchAction({
+            type: 'hideTip'
+        });
+    }
+
+    function onPointDragging(dataIndex, dx, dy) {
+        var oldPosition = this.position;
+        var newPosition = [oldPosition[0], oldPosition[1] + dy];
+        data[dataIndex][1] = myChart.convertFromPixel('grid', newPosition)[1];
+
+        // Update data
+        myChart.setOption({
+            series: [{
+                id: 'a',
+                data: data
+            }]
+        });
+
+        // Update custom circle
+        points[dataIndex].attr('position', newPosition);
+    }
+</script>
+</html>

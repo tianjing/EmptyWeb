@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>离线地图</title>
+    <link rel="stylesheet" href="../../js/leafletjs/leaflet/leaflet.css">
+    <script src="../../js/leafletjs/leaflet/leaflet.js"></script>
+    <script src="../../js/jquery-1.11.3.js"></script>
+
+    <link rel="stylesheet" href="../../js/leafletjs/plugins/searchbox/searchbox.css">
+    <script src="../../js/leafletjs/plugins/searchbox/searchbox.js"></script>
+    <style>
+        .leaflet-container{
+            background-color: #b5d6ea;
+        }
+    </style>
+
+</head>
+<body>
+<div id="map" style="height:100vh;" ></div>
+<script type="text/javascript">
+    //y 32.0337
+    //x 118.7650
+    //minZoom：最小比例；maxZoom：最大比例；setView([中心点]，初始比例）
+    var url="../../myrest/maptile/{z}@{y}@{x}";
+    var center=[32.0337, 118.7650];
+    //api 地址：http://leafletjs.com/reference-1.2.0.html#layergroup
+    init();
+    function init() {
+        var map = L.map('map', {"minZoom": 6, "maxZoom": 12,"renderer":L.Canvas,"zoomControl":false}).setView(center, 6);
+        //切片地址
+        L.tileLayer(url, {
+            attribution: '&copy; Google China',
+            errorTileUrl:"../../js/leafletjs/leaflet/images/none.png"//获取不到图片时使用空图片
+        }).addTo(map);
+        var markerLayer =L.layerGroup();
+        markerLayer.addTo(map);
+
+        //缩放控件
+        L.control.zoom({ zoomInTitle: '放大', zoomOutTitle: '缩小', position: 'bottomright' }).addTo(map);
+        //比例尺
+        L.control.scale({position: 'bottomleft',"imperial":false}).addTo(map);
+
+        //搜索控件
+        var control = new searchboxControl({
+            "map":map
+            ,sidebarTitleText: 'Header'
+            ,sidebarMenuItems: {}
+            ,url:"data/data.jsp"
+            ,param:{"method":"getSearch"}
+            ,keyUrl:"data/data.jsp"
+            ,keyParam:{"method":"getKeySearch"}
+            ,emptyInput:"请输入新测试"
+            //,searchResultItemClick:function (event){alert(1);}
+        });
+
+        map.addControl(control);
+
+        //打点 ,{"icon":makericon}
+        var marker= L.marker(center);
+        marker.addTo(markerLayer)
+            .bindPopup('DTS 1<br>32° 118°')
+            .openPopup();
+
+
+        setTimeout(function(){
+            marker.remove();
+
+            //把点放入到一个图层中方便管理  //,{"icon":makericon}
+            var dd=L.marker([32.1337, 118.7650]);
+            dd.addTo(markerLayer).bindPopup('fdafdasfdasf').openPopup();
+            markerLayer.addLayer(dd);
+            setTimeout(function(){
+                markerLayer.clearLayers();
+            },3000);
+        },2000);
+    };
+</script>
+</body>
+</html>

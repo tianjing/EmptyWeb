@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- DB2数据源 -->
+   <bean id="DB2DataSource" class="org.apache.commons.dbcp.BasicDataSource"
+       destroy-method="close">
+
+       <property name="driverClassName" value="com.ibm.db2.jcc.DB2Driver" />
+       <property name="url" value="jdbc:db2://172.17.1.205:50000/JSDMS:retrieveMessagesFromServerOnGetMessage=true;" />
+       <property name="username" value="pmis" />
+       <property name="password" value="admincyber830" />
+       <property name="maxActive" value="100"></property>
+       <property name="maxIdle" value="30"></property>
+       <property name="maxWait" value="-1"></property>
+       <property name="defaultAutoCommit" value="true"></property>
+       <property name="removeAbandoned" value="true"/>
+       <property name= "testWhileIdle" value="true" />
+       <property name= "testOnBorrow" value="false" />
+       <property name= "testOnReturn" value="false" />
+       <property name= "validationQuery" value="select 1 from JB_DIC_STATION" />
+       <property name= "timeBetweenEvictionRunsMillis" value="30000" />
+       <property name= "numTestsPerEvictionRun" value="30" />
+       <property name="minEvictableIdleTimeMillis" value="1800000" />
+   </bean>
+
+
+</beans>  

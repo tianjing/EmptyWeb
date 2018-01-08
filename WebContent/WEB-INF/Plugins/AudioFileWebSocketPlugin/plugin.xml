@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PluginInfo>
+<name>AudioFileWebSocketPlugin</name>
+<classname>tgtools.plugins.websocket.audiofile.Plugin</classname>
+<isload>false</isload>
+</PluginInfo>

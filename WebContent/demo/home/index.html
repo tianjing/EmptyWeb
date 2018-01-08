@@ -1,0 +1,113 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>后台管理模板</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="js/lay/css/layui.css" media="all" />
+    <link rel="stylesheet" href="css/global.css" media="all">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+
+<body style="width: 100%;height: 100%;overflow: hidden;">
+<div class="layui-layout layui-layout-admin" style="border-bottom: solid 5px #1aa094;">
+    <div class="layui-header header header-demo">
+        <div class="layui-main">
+            <div class="admin-login-box">
+                <a class="logo" style="left: 0;" href="javascript:;">
+                    <span style="font-size: 22px;color:white;">在线demo</span>
+                </a>
+
+            </div>
+            <ul id="myMenu" class="layui-nav admin-header-item">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">培训示例</a>
+                </li>
+                <li class="layui-nav-item" id="pay">
+                    <a href="javascript:;">图形</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">UI</a>
+                    <dl class="layui-nav-child"><dd><a href="javascript:;"><i class="fa fa-user-circle" aria-hidden="true"></i> 个人信息</a></dd></dl>
+                </li>
+                <!--<li class="layui-nav-item">-->
+                    <!--<a href="javascript:;" class="admin-header-user">-->
+                        <!--<img src="images/0.jpg" />-->
+                        <!--<span>beginner</span>-->
+                    <!--</a>-->
+                    <!--<dl class="layui-nav-child">-->
+                        <!--<dd>-->
+                            <!--<a href="javascript:;"><i class="fa fa-user-circle" aria-hidden="true"></i> 个人信息</a>-->
+                        <!--</dd>-->
+                        <!--<dd>-->
+                            <!--<a href="javascript:;"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a>-->
+                        <!--</dd>-->
+                        <!--<dd id="lock">-->
+                            <!--<a href="javascript:;">-->
+                                <!--<i class="fa fa-lock" aria-hidden="true" style="padding-right: 3px;padding-left: 1px;"></i> 锁屏 (Alt+L)-->
+                            <!--</a>-->
+                        <!--</dd>-->
+                        <!--<dd>-->
+                            <!--<a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>-->
+                        <!--</dd>-->
+                    <!--</dl>-->
+                <!--</li>-->
+            </ul>
+            <ul class="layui-nav admin-header-item-mobile">
+                <li class="layui-nav-item">
+                    <a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div style="height: 100%;width: 100%;">
+    <div style="height: 100%;width: 100%;">
+    <!--<div class="layui-side layui-bg-black" id="admin-side">-->
+        <!--<div class="layui-side-scroll" id="admin-navbar-side" lay-filter="side"></div>-->
+    <!--</div>-->
+    <iframe id="content" src="techtree.html" scrolling="yes" width="100%" height="100%"></iframe>
+    </div>
+
+</div>
+
+<script src="js/lay/layui.js?t=1503268821783" charset="utf-8"></script>
+<script src="js/menudata.js"></script>
+
+<script type="application/javascript">
+    var menu;
+    layui.config({
+        base: 'js/',
+        version: 0//new Date().getTime()
+    }).use(['element', 'layer','menu'],function(){
+        $=layui.jquery;
+        menu=layui.menu({id:"myMenu","itemClick":itemClick});
+        menu.load(menudata);
+    });
+    function itemClick(e)
+    {
+        var taga=$(e.target);
+        var url=taga.attr("url");
+        var openType=taga.attr("openType");
+        if(''!=url)
+        {
+            if("_self"==openType)
+            {
+                $('#content').attr("src",url);
+            }
+            else if("_blank"==openType)
+            {
+                window.open(url);
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

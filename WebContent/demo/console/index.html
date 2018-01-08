@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/term.js"></script>
+    <style type="text/css">
+        #container-terminal{
+            width:100%;
+        }
+        .terminal{width:100%}
+        #menu {
+           /* height: 200px;*/
+            width: 200px;
+            border: 1px solid gray;
+            background-color: antiquewhite;
+            padding: 10px;
+            display: none;
+            position: absolute;
+        }
+
+        ul,
+        li {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            line-height: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="menu">
+    <ul>
+        <li onclick="paste();">自定义命令</li>
+    </ul>
+</div>
+<input type="hidden" value="">
+<div id="container-terminal"></div>
+</body>
+<script src="js/index.js"></script>
+
+</html>

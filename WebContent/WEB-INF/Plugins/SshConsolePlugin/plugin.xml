@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PluginInfo>
+<name>SshConsolePlugin</name>
+<classname>tgtools.plugin.Plugin</classname>
+<isload>false</isload>
+</PluginInfo>
+        <!-- 运行环境 java8 tomcat8-->
+        <!-- 修改插件配置 false改为true，修改 spring-rest.xml 启用websocket-->
+<!--访问地址 localhost:8080/EmptyProject/demo/console/index.html-->

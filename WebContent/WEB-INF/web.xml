@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <welcome-file-list>
+        <welcome-file>platform/login.jsp</welcome-file>
+    </welcome-file-list>
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/error/404.jsp</location>-->
+    <!--</error-page>-->
+    <!-- <error-page>
+      <error-code>500</error-code>
+      <location>/error/500.jsp</location>
+    </error-page>-->
+
+<filter>
+<filter-name>myFilter</filter-name>
+    <filter-class>tgtools.web.http.Filter.UrlProxyStreamFilter</filter-class>
+    <init-param>
+        <param-name>ipmap</param-name>
+        <param-value>{"/EmptyProject":{"TargetHost":"192.168.88.1","TargetPort":"8080","TargetUrl":"/EmptyProject"},"/nf":{"TargetHost":"192.168.88.1","TargetPort":"8081","TargetUrl":"/nf"}}</param-value>
+    </init-param>
+</filter>
+<filter-mapping>
+    <filter-name>myFilter</filter-name>
+    <url-pattern>*</url-pattern>
+</filter-mapping>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring-config-all.xml</param-value>
+    </context-param>
+
+    <!-- 平台request监听 如果不使用平台 可以使用org.springframework.web.context.request.RequestContextListener-->
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+
+
+
+    <!-- spring rest 配置开始   -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>rest</servlet-name>
+        <servlet-class>tgtools.web.platform.PlatformDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/spring-rest.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>rest</servlet-name>
+        <url-pattern>/myrest/*</url-pattern>
+    </servlet-mapping>
+    <!-- spring rest 配置结束  -->
+
+    <!-- weblogic 下载 配置  开始 -->
+    <mime-mapping>
+        <extension>msi</extension>
+        <mime-type>application/x-msi</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>xls</extension>
+        <mime-type>application/msexcel</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>xlsx</extension>
+        <mime-type>application/msexcel</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>doc</extension>
+        <mime-type>application/msword</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>docx</extension>
+        <mime-type>application/msword</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>png</extension>
+        <mime-type>image/png</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>jpg</extension>
+        <mime-type>image/jpg</mime-type>
+    </mime-mapping>
+    <!-- weblogic 下载 配置  结束 -->
+</web-app>

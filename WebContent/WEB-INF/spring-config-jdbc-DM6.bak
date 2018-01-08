@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- OMS数据源 -->
+
+    <bean id="OMSDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+        destroy-method="close">
+
+        <property name="driverClassName" value="dm6.jdbc.driver.DmDriver" />
+        <property name="url" value="jdbc:dm6://192.168.1.254:12345/oms" />
+        <property name="username" value="SYSDBA" />
+        <property name="password" value="SYSDBA" />
+        <property name="maxActive" value="100"></property>
+        <property name="maxIdle" value="30"></property>
+        <property name="maxWait" value="-1"></property>
+        <property name="defaultAutoCommit" value="true"></property>
+        <property name="removeAbandoned" value="true"/>
+        <property name= "testWhileIdle" value="true" />
+        <property name= "testOnBorrow" value="false" />
+        <property name= "testOnReturn" value="false" />
+        <property name= "validationQuery" value="select 1" />
+        <property name= "timeBetweenEvictionRunsMillis" value="30000" />
+        <property name= "numTestsPerEvictionRun" value="30" />
+        <property name="minEvictableIdleTimeMillis" value="1800000" />
+    </bean>
+
+</beans>  

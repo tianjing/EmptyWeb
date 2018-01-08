@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <!--<cacheManagerPeerProviderFactory-->
+            <!--class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"-->
+            <!--properties="connect=UDP(mcast_addr=230.0.0.1;mcast_port=4551;bind_port=4441):-->
+    <!--PING:MERGE2:FD_SOCK:VERIFY_SUSPECT:-->
+    <!--pbcast.NAKACK:UNICAST:-->
+    <!--pbcast.STABLE:FRAG:pbcast.GMS" propertySeparator="::"/>-->
+
+
+    <!--&lt;!&ndash;  集群配置 hostName为本机IP &ndash;&gt;-->
+    <defaultCache maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="30" timeToLiveSeconds="30"
+                  overflowToDisk="false"/>
+
+    <!-- 定时缓存 （600秒） -->
+    <cache name="TimerCache"
+           eternal="false"
+           timeToLiveSeconds="600"
+           maxElementsInMemory="10000"
+           timeToIdleSeconds="900"
+           memoryStoreEvictionPolicy="LFU">
+
+    </cache>
+
+    <!-- 永久缓存 -->
+    <cache name="EverCache" eternal="true" maxElementsInMemory="1000000">
+        <!--<bootstrapCacheLoaderFactory-->
+                <!--class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"-->
+                <!--properties="bootstrapAsynchronously=true"/>-->
+        <!--<cacheEventListenerFactory-->
+                <!--class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"-->
+                <!--properties="replicateUpdatesViaCopy=true "-->
+        <!--/>-->
+        <!--  集群配置   -->
+    </cache>
+    <!-- 消息缓存 -->
+    <cache name="MessageCache" eternal="true" maxElementsInMemory="1000000">
+        <!--<bootstrapCacheLoaderFactory-->
+                <!--class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"-->
+                <!--properties="bootstrapAsynchronously=true"/>-->
+        <!--<cacheEventListenerFactory-->
+                <!--class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"-->
+                <!--properties="replicateUpdatesViaCopy=false,replicateUpdates=false,replicateRemovals=false,replicatePuts=true"-->
+        <!--/>-->
+    </cache>
+</ehcache>
