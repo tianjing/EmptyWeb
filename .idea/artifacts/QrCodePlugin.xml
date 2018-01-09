@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="QrCodePlugin">
+    <output-path>$PROJECT_DIR$/WebContent/WEB-INF/Plugins/QrCodePlugin</output-path>
+    <root id="archive" name="QrCodePlugin.jar">
+      <element id="module-output" name="QrCodePlugin" />
+    </root>
+  </artifact>
+</component>
