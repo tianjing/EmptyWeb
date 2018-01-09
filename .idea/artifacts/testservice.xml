@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="testservice">
+    <output-path>$PROJECT_DIR$/WebContent/WEB-INF/Services/testservice</output-path>
+    <root id="archive" name="testservice.jar">
+      <element id="module-output" name="testservice" />
+    </root>
+  </artifact>
+</component>
