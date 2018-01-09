@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/EmptyWeb.iml" filepath="$PROJECT_DIR$/.idea/EmptyWeb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugins/QrCodePlugin/QrCodePlugin.iml" filepath="$PROJECT_DIR$/Plugins/QrCodePlugin/QrCodePlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugins/SshConsolePlugin/SshConsolePlugin.iml" filepath="$PROJECT_DIR$/Plugins/SshConsolePlugin/SshConsolePlugin.iml" />
     </modules>
   </component>
 </project>
