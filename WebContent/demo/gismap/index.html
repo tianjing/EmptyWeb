@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>离线地图</title>
     <link rel="stylesheet" href="../../js/leafletjs/leaflet/leaflet.css">
     <script src="../../js/leafletjs/leaflet/leaflet.js"></script>
@@ -21,7 +23,7 @@
     //y 32.0337
     //x 118.7650
     //minZoom：最小比例；maxZoom：最大比例；setView([中心点]，初始比例）
-    var url="../../myrest/maptile/{z}@{y}@{x}";
+    var url="../../myrest/maptiles/{z}@{y}@{x}@";
     var center=[32.0337, 118.7650];
     //api 地址：http://leafletjs.com/reference-1.2.0.html#layergroup
     init();
