@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/Plugins/EmptyPlugin/EmptyPlugin.iml" filepath="$PROJECT_DIR$/Plugins/EmptyPlugin/EmptyPlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/EmptyWeb.iml" filepath="$PROJECT_DIR$/.idea/EmptyWeb.iml" />
       <module fileurl="file://$PROJECT_DIR$/Plugins/FreemarkPlugin/FreemarkPlugin.iml" filepath="$PROJECT_DIR$/Plugins/FreemarkPlugin/FreemarkPlugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Plugins/PinyinPlugin/PinyinPlugin.iml" filepath="$PROJECT_DIR$/Plugins/PinyinPlugin/PinyinPlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/Plugins/QrCodePlugin/QrCodePlugin.iml" filepath="$PROJECT_DIR$/Plugins/QrCodePlugin/QrCodePlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/Plugins/SshConsolePlugin/SshConsolePlugin.iml" filepath="$PROJECT_DIR$/Plugins/SshConsolePlugin/SshConsolePlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/Services/testservice/testservice.iml" filepath="$PROJECT_DIR$/Services/testservice/testservice.iml" />
